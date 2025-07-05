@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "SumUp TillerSystem Stock Extractor",
+  "version": "1.0",
+  "description": "Extracts stock data and downloads it as CSV",
+  "permissions": ["scripting", "activeTab", "storage", "cookies", "https://internal.api.tiller.systems/"],
+  "host_permissions": [
+    "https://new.tillersystems.com/*",
+    "https://internal.api.tiller.systems/*",
+    "https://app.tillersystems.com/*"
+  ],
+  "icons": {
+    "128": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://new.tillersystems.com/products/stocks*"],
+      "js": ["extract_stock_data.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://app.tillersystems.com/inventory/list/product*"],
+      "js": ["extract_product_data.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["get_token.js"],
+      "matches": ["https://new.tillersystems.com/*"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "homepage_url": "https://github.com/ro-olivier/tillersystem-stock-extractor",
+  "author": "Robin OLIVIER",
+  "license": "CC BY-NC 4.0"
+}
